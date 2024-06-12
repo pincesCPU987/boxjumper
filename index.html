@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="styles.css">
+
+<body>
+  <canvas id="output"></canvas>
+  <div id="start">
+    <textarea id="input" rows="20" cols="100">// Uncomment these comments for example level generation.
+
+/*
+// Level 1 - Blocks (Small level)
+terrain = [];
+
+LEVELWIDTH = 1024;
+LEVELHEIGHT = 1024;
+
+for (var i = 0; i &lt; LEVELHEIGHT; i += 256) {
+  for (var j = 0; j &lt; LEVELWIDTH; j += 128) {
+    terrain.push({x: j, y: i + (j % 256) + 64, width: 128, height: 64});
+  }
+}
+
+for (var i = 0; i &lt; terrain.length; i++) {
+  terrain[i] = createTerrainData(terrain[i]);
+}
+*/
+
+/*
+// Level 2 - Blocks (Smaller level)
+terrain = [];
+
+LEVELWIDTH = 256;
+LEVELHEIGHT = 1024;
+
+for (var i = 0; i &lt; LEVELHEIGHT; i += 256) {
+  for (var j = 0; j &lt; LEVELWIDTH; j += 128) {
+    terrain.push({x: j, y: i + (j % 256) + 64, width: 128, height: 64});
+  }
+}
+
+for (var i = 0; i &lt; terrain.length; i++) {
+  terrain[i] = createTerrainData(terrain[i]);
+}
+*/
+
+/*
+// Level 3 - Blocks (Huge level)
+terrain = [];
+
+LEVELWIDTH = 16384;
+LEVELHEIGHT = 16384;
+terrain = [];
+for (var i = 0; i &lt; LEVELHEIGHT; i += 256) {
+  for (var j = 0; j &lt; LEVELWIDTH; j += 128) {
+    terrain.push({x: j, y: i + (j % 256) + 64, width: 128, height: 64});
+  }
+}
+
+for (var i = 0; i &lt; terrain.length; i++) {
+  terrain[i] = createTerrainData(terrain[i]);
+}
+*/
+
+/*
+// Level 4 - Random Rectangles (Small level)
+terrain = [];
+
+LEVELWIDTH = 1024;
+LEVELHEIGHT = 1024;
+
+var numrects = 50;
+var maxsize = 100;
+var minsize = 32;
+
+for (var i = 0; i &lt; numrects; i++) {
+  terrain.push({x: Math.floor(Math.random() * LEVELWIDTH), y: Math.floor(Math.random() * LEVELHEIGHT), width: Math.floor(Math.random() * (maxsize - minsize) + minsize), height: Math.floor(Math.random() * (maxsize - minsize) + minsize)});
+}
+
+for (var i = 0; i &lt; terrain.length; i++) {
+  terrain[i] = createTerrainData(terrain[i]);
+}
+*/
+
+/*
+// Level 5 - Random Rectangles (Huge level)
+terrain = [];
+
+LEVELWIDTH = 16384;
+LEVELHEIGHT = 16384;
+
+var numrects = 10000;
+var maxsize = 200;
+var minsize = 32;
+
+for (var i = 0; i &lt; numrects; i++) {
+  terrain.push({x: Math.floor(Math.random() * LEVELWIDTH), y: Math.floor(Math.random() * LEVELHEIGHT), width: Math.floor(Math.random() * (maxsize - minsize) + minsize), height: Math.floor(Math.random() * (maxsize - minsize) + minsize)});
+}
+
+for (var i = 0; i &lt; terrain.length; i++) {
+  terrain[i] = createTerrainData(terrain[i]);
+}
+*/</textarea>
+    <h1>Instructions</h1>
+    <p>
+      Enter JavaScript into the text box to generate a level.
+      <br>
+      <br>
+      Things you can change:
+      <br>
+      LEVELWIDTH: The width of the level, in pixels. Default is 16384.
+      <br>
+      LEVELHEIGHT: The height of the level, in pixels. Default is 16384.
+      <br>
+      terrain: Must be a list of objects returned by createTerrainData(). All objects passed to createTerrainData must have properties "x", "y", "width", "height". The createTerrainData function adds a "render" property, which is necessary to render them. See the on how to do this. By default, the level is empty.
+      <br>
+      RESPAWNX: The x coordinate, in pixels, where the player will respawn. Default is 0.
+      <br>
+      RESPAWNY: The y coordinate, in pixels, where the player will respawn. Default is 0.
+      <br>
+      <br>
+      Controls:
+      <br>
+      Space - jump
+      <br>
+      Left and right arrows: move left and right
+      <br>
+      X - regenerate level and respawn (more useful for dynamic or random levels)
+      <br>
+      Ctrl+C - Reload (idk why I did this, but if you find it useful, good for you)
+      <br>
+      <br>
+      Rules:
+      <br>
+      You can wall jump - just press up against a wall and press Space.
+      <br>
+      If you fall off a platform without jumping, you can jump once in the air. You can then only wall jump until you land. If you jump off a platform, you cannot jump in the air. However, you can still wall jump. You can wall jump anytime.
+      <br>
+      If you fall to the bottom of the level, you will respawn. The level will not regenerate when this happens.
+    </p>
+  </div>
+</body>
+
+<script src="script.js"></script>
