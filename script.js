@@ -152,9 +152,9 @@ var lastValue = 0;
 var background = {
   render: (ctx) => {
     ctx.fillStyle = BACKGROUNDCOLOR;
-		ctx.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    ctx.fillRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
     const bufferLength = analyser.frequencyBinCount;
-		const dataArray = new Uint8Array(bufferLength);
+    const dataArray = new Uint8Array(bufferLength);
     
     ctx.fillStyle = '#400';
     analyser.getByteFrequencyData(dataArray);
@@ -169,9 +169,9 @@ var background = {
     analyser.getByteTimeDomainData(dataArray2);
     
     for (var i = 0; i < dataArray2.length; i++) {
-    	ctx.beginPath();
-      ctx.moveTo((i - 1) * (SCREENWIDTH / dataArray2.length), (lastValue / 255) * SCREENHEIGHT);
-      ctx.lineTo(i * (SCREENWIDTH / dataArray2.length), (dataArray2[i] / 255) * SCREENHEIGHT);
+      ctx.beginPath();
+      ctx.moveTo((i - 1) * (SCREENWIDTH / dataArray2.length), ((255 - lastValue) / 255) * SCREENHEIGHT);
+      ctx.lineTo(i * (SCREENWIDTH / dataArray2.length), ((255 - dataArray2[i]) / 255) * SCREENHEIGHT);
       ctx.stroke();
       lastValue = dataArray2[i];
     }
@@ -359,17 +359,17 @@ function update() {
 
 // Render functions ////////////////////////////////////////////////////////////
 function render(ctx) {
-	SCREENWIDTH = document.documentElement.clientWidth;
+  SCREENWIDTH = document.documentElement.clientWidth;
   SCREENHEIGHT = document.documentElement.clientHeight;
-	
-	output.width = SCREENWIDTH;
+  
+  output.width = SCREENWIDTH;
   output.height = SCREENHEIGHT;
-	//outofboundscolor += outofboundscolordirection;
+  //outofboundscolor += outofboundscolordirection;
   ctx.clearRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
   background.render(ctx);
 
   //player.render(ctx, player.x - camera.x, player.y - camera.y);
-	
+  
   camera.x = player.x - SCREENWIDTH / 2;
   camera.y = player.y - SCREENHEIGHT / 2;
   
@@ -390,7 +390,7 @@ function render(ctx) {
   
   camera.x += Math.floor(Math.random() * ((vibratedistance * 2) + 1)) - vibratedistance;
   camera.y += Math.floor(Math.random() * ((vibratedistance * 2) + 1)) - vibratedistance;
-	
+  
   osc.frequency.value = vibratedistance * 10;
   gain.gain.value = (vibratedistance > 0) / 4;
   
@@ -406,17 +406,17 @@ function render(ctx) {
   
   ctx.fillStyle = '#00' + Math.floor((outofboundscolor / 31) * 3).toString(16);
   if (camera.x + SCREENWIDTH > LEVELWIDTH) {
-  	ctx.fillRect(LEVELWIDTH - camera.x, 0, SCREENWIDTH - (LEVELWIDTH - camera.x), SCREENHEIGHT);
+    ctx.fillRect(LEVELWIDTH - camera.x, 0, SCREENWIDTH - (LEVELWIDTH - camera.x), SCREENHEIGHT);
   }
   if (camera.x < 0) {
     ctx.fillRect(0, 0, -camera.x, SCREENHEIGHT);
   }
   
   if (camera.y + SCREENHEIGHT > LEVELHEIGHT) {
-  	ctx.fillRect(0, LEVELHEIGHT - camera.y, SCREENWIDTH, SCREENHEIGHT - (LEVELHEIGHT - camera.y));
+    ctx.fillRect(0, LEVELHEIGHT - camera.y, SCREENWIDTH, SCREENHEIGHT - (LEVELHEIGHT - camera.y));
   }
   if (camera.y < 0) {
-  	ctx.fillRect(0, 0, SCREENWIDTH, -camera.y);
+    ctx.fillRect(0, 0, SCREENWIDTH, -camera.y);
   }
   
   player.render(ctx, Math.round(player.x - camera.x), Math.round(player.y - camera.y));
@@ -426,7 +426,7 @@ function render(ctx) {
 // Input functions /////////////////////////////////////////////////////////////
 
 function setUpInput() {
-	onkeydown = (e) => {
+  onkeydown = (e) => {
     keyspressed[e.code] = true;
     if (e.code == 'KeyX') {
       player.x = RESPAWNX;
@@ -435,7 +435,7 @@ function setUpInput() {
       player.dy = 0;
       generate();
     } else if (e.code == 'KeyC' && e.ctrlKey) {
-    	window.location.reload();
+      window.location.reload();
     }
   }
 
@@ -471,10 +471,10 @@ function playermovement(ctx) {
   }
   
   if (player.dx > MAXSPEEDX) {
-  	player.dx = MAXSPEEDX;
+    player.dx = MAXSPEEDX;
   }
   if (player.dx < -MAXSPEEDX) {
-  	player.dx = -MAXSPEEDX;
+    player.dx = -MAXSPEEDX;
   }
   
   if ((!keyspressed.ArrowLeft && !keyspressed.ArrowRight) || (keyspressed.ArrowLeft && keyspressed.ArrowRight)) {
@@ -489,14 +489,14 @@ function playermovement(ctx) {
     }
   }
   if (keyspressed.Space) {
-  	/*
+    /*
     if (keyspressed.ArrowLeft && touchingleft) {
-    	vibratedistance = Math.round(Math.abs(player.dx));
+      vibratedistance = Math.round(Math.abs(player.dx));
       player.dx = WALLJUMPSPEED;
       player.dy = JUMPSPEED;
     }
     if (keyspressed.ArrowRight && touchingright) {
-    	vibratedistance = Math.round(Math.abs(player.dx));
+      vibratedistance = Math.round(Math.abs(player.dx));
       player.dx = -WALLJUMPSPEED;
       player.dy = JUMPSPEED;
     }
@@ -534,7 +534,7 @@ var touchingdown = false;
 var colliding = false;
 
 function collisions() {
-	touchingleft = false;
+  touchingleft = false;
   touchingright = false;
   touchingup = false;
   touchingdown = false;
@@ -544,13 +544,13 @@ function collisions() {
   }
   var reservedy = player.dy;
   for (var i = 0; i < terrain.length; i++) {
-  	var o = terrain[i];
+    var o = terrain[i];
     for (var j = player.y + 1; j < player.y + (PLAYERHEIGHT / 2); j++) {
       if (player.x > o.x - PLAYERWIDTH && player.x < (o.x - PLAYERWIDTH) + COLLISIONBUFFERX && (j >= o.y && j <= o.y + o.height)) {
         touchingright = true;
         colliding = true;
         if (keyspressed.Space && keyspressed.ArrowRight) {
-        	vibratedistance = Math.abs(player.dx) * 4;
+          vibratedistance = Math.abs(player.dx) * 4;
           player.x = o.x - PLAYERWIDTH;
           player.dx = -WALLJUMPSPEED;
           player.dy = JUMPSPEED;
@@ -565,7 +565,7 @@ function collisions() {
         touchingleft = true;
         colliding = true;
         if (keyspressed.Space && keyspressed.ArrowLeft) {
-        	vibratedistance = Math.abs(player.dx) * 4;
+          vibratedistance = Math.abs(player.dx) * 4;
           player.x = o.x + o.width;
           player.dx = WALLJUMPSPEED;
           player.dy = JUMPSPEED;
@@ -651,7 +651,7 @@ function createTerrainData(data) {
   rect.setColor(LEVELCOLOR);
   */
   data2.render = (ctx, x, y, width, height) => {
-  	ctx.fillStyle = LEVELCOLOR;
+    ctx.fillStyle = LEVELCOLOR;
     ctx.fillRect(x, y, width, height)
   };
   return data2;
@@ -661,15 +661,15 @@ var started = false;
 
 /*
 onunhandledrejection = (e) => {
-	console.log(e.message);
+  console.log(e.message);
 }
 */
 
 var input = document.querySelector('#input');
 
 input.onkeydown = (e) => {
-	if (e.code == 'Enter' && e.ctrlKey && !started) {
-  	generate = new Function(input.value);
+  if (e.code == 'Enter' && e.ctrlKey && !started) {
+    generate = new Function(input.value);
     document.querySelector('#start').style.display = 'none';
     output.style.display = 'block';
     start();
